@@ -20,8 +20,20 @@ def create_user_profile(**kwargs):
         return 'Invalid Input.'
 
     print("User Profile Created")
-    for i,j in kwargs.items():
-        print(f'{i}: {j}')
+    print(f"name : {name}")
+    print(f"age : {age}")
+    print(f"role : {role}")
+
+    extra_fields = ['name', 'age', 'role']
+
+    has_extra = False
+    for key, value in kwargs.items():
+        if key not in extra_fields:
+            if not has_extra:
+                print("Extra fields:")
+                has_extra = True
+            print(f"{key} : {value}")
+
 
         
             

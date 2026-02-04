@@ -17,4 +17,3 @@ def nums(*args):
 
     return largest, smallest
 
-    
