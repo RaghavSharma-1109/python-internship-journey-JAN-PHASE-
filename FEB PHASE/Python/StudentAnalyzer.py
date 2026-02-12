@@ -26,23 +26,40 @@ def analyze_students(students: list):
         }
         name = data.get('name')
         if not isinstance(name,str):
-            return{
+            return {
             'status': False,
             'error': 'Name must be in string',
             'data': None
         }
         mark = data.get('marks')
-        if not isinstance(mark,int):
+        if isinstance(mark, bool):
             return {
             'status': False,
-            'error': 'Mark must be Integer',
+            'error': 'Marks must be Integer(booleans not allowed)',
             'data': None
         }
+
+        try:
+            mark = float(mark)
+        except (ValueError, TypeError):
+            return {
+            'status': False,
+            'error': 'Invalid Marks',
+            'data': None
+        }
+
+        if not (0 <= mark <= 100):
+            return {
+                'status': False,
+                'error': 'Marks Out of Range',
+                'data': None
+            }
+
         if mark>=50:
             passed.append(name)
-            if mark>topper_mark:
-                topper_mark =mark
-                topper =name
+        if mark>topper_mark:
+            topper_mark =mark
+            topper =name
         total += mark
     average =round(total/len(students),2)
     return {
