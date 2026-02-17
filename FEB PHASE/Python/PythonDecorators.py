@@ -12,7 +12,7 @@ def validate_types(func):
                 continue
             
             if param in arguments:
-                if not isinstance(arguments[param], expected_type):
+                if type(param) is expected_type:
                     raise TypeError(
                         f"Argument '{param}' must be of type {expected_type.__name__}"
                     )
