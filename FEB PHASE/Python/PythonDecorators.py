@@ -12,18 +12,46 @@ def validate_types(func):
                 continue
             
             if param in arguments:
-                if type(param) is expected_type:
-                    raise TypeError(
-                        f"Argument '{param}' must be of type {expected_type.__name__}"
-                    )
+                value = arguments[param]
+
+                # Strict rule for int
+                if expected_type is int:
+                    if type(value) is not int:
+                        raise TypeError(
+                            f"Argument '{param}' must be strictly of type int"
+                        )
+
+                # Flexible rule for float
+                elif expected_type is float:
+                    if not isinstance(value, (int, float)):
+                        raise TypeError(
+                            f"Argument '{param}' must be numeric (int or float)"
+                        )
+
+                # Strict rule for everything else
+                else:
+                    if type(value) is not expected_type:
+                        raise TypeError(
+                            f"Argument '{param}' must be of type {expected_type.__name__}"
+                        )
+
 
         result = func(*args, **kwargs)
 
         if "return" in annotations:
-            if not isinstance(result, annotations["return"]):
-                raise TypeError(
-                    f"Return value must be of type {annotations['return'].__name__}"
-                )
+            expected_return = annotations["return"]
+
+            if expected_return is float:
+                if not isinstance(result, (int, float)):
+                    raise TypeError(
+                        f"Return value must be numeric (int or float)"
+                    )
+            else:
+                if type(result) is not expected_return:
+                    raise TypeError(
+                        f"Return value must be of type {expected_return.__name__}"
+                    )
+
 
         return result
 
