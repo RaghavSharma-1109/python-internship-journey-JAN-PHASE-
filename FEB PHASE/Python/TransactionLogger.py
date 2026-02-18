@@ -2,7 +2,7 @@ class TransactionLogger:
     def __init__(self):
         self.transactions = []
         self._next_id =1
-    def add_transaction(self, data: dict)
+    def add_transaction(self, data: dict):
         if type(data) is not dict:
             return {
                     "status": False,
