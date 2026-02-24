@@ -1,95 +1,42 @@
+class TransactionValidationError(Exception):
+    pass
 class TransactionLogger:
+    @staticmethod
+    def __validate_user_id(user_id):
+        if not isinstance(user_id,int) or isinstance(user_id,bool):
+            raise TransactionValidationError('Invalid user_id.')
+    @staticmethod
+    def __validate_amount(amount):
+        if not isinstance(amount,(int,float)) or isinstance(amount,bool) or amount<=0:
+            raise TransactionValidationError('Invalid Amount')
+    @staticmethod
+    def __validate_type(txn_type):
+        if txn_type not in ('credit','debit'):
+            raise TransactionValidationError('Invalid type')
     def __init__(self):
-        self.transactions = []
-        self._next_id =1
-    def add_transaction(self, data: dict):
-        if type(data) is not dict:
-            return {
-                    "status": False,
-                    "message": "Data must be of dict type",
-                    "data": None
-                }
-            
-        req = {'user_id','amount','type'}
-        if not req.issubset(data):
-            return {
-                    "status": False,
-                    "message": "Missing required fields",
-                    "data": None
-                }
-        user_id = data.get('user_id')
-        if isinstance(user_id, bool) or not isinstance(user_id, int):
-            return {
-                    "status": False,
-                    "message": "User ID must be integer.",
-                    "data": None
-                }
-        amount = data.get('amount')
-        if type(amount) is not int and type(amount) is not float:
-            return {
-                    "status": False,
-                    "message": "Amount must be of tyoe of integer or float",
-                    "data": None
-                }
-        type_trans = data.get('type')
-        if type(type_trans) is not str:
-            return {
-                    "status": False,
-                    "message": "Type of transaction must be a string",
-                    "data": None
-                }
-        if type_trans not in ['credit','debit']:
-            return {
-                    "status": False,
-                    "message": "Transaction must be of credit or debit",
-                    "data": None
-                }
+        self.__transactions=[]
+    def add_transaction(self,user_id, amount, txn_type):
+        self.__validate_user_id(user_id)
+        self.__validate_amount(amount)
+        self.__validate_type(txn_type)
         transaction = {
-            "transaction_id": self._next_id,
-            "user_id": user_id,
-            "amount": float(amount),
-            "type": type_trans
+            'user_id': user_id,
+            'amount': float(amount),
+            'type': txn_type
         }
-
-        self.transactions.append(transaction)
-        self._next_id += 1
-        return {
-            "status": True,
-            "message": "Transaction Added",
-            "data": transaction
-        }
-
-    def get_user_transactions(self,user_id):
-        if type(user_id) is not int:
-            return {
-                    "status": False,
-                    "message": "User Id must be Integer",
-                    "data": None
-                }
-        user_txns = [t for t in self.transactions if t["user_id"] == user_id]
-        return {
-            "status": True,
-            "message": "User transactions fetched",
-            "data": user_txns
-        }
+        self.__transactions.append(transaction)
+    
     def get_user_balance(self,user_id):
-        if type(user_id) is not int:
-            return {
-                    "status": False,
-                    "message": "User Id must be Integer",
-                    "data": None
-                }
-        user_txns = [t for t in self.transactions if t["user_id"] == user_id]
-
-        balance = 0
-        for i in user_txns:
-            if i['type'] == 'credit':
-                balance += i['amount']
-            elif i['type'] == 'debit':
-                balance -= i['amount']
-        
-        return{
-            "status": True,
-            "message": "User balance calculated",
-            "data": balance
-        }
+        self.__validate_user_id(user_id)
+        balance =0.0
+        for txn in self.__transactions:
+            if txn['user_id'] == user_id:
+                if txn['type'] == 'credit':
+                    balance += txn['amount']
+                else:
+                    balance -= txn['amount']
+        return balance
+    
+    def get_all_transactions(self,user_id):
+        self.__validate_user_id(user_id)
+        return [transaction.copy() for transaction in self.__transactions if transaction['user_id'] == user_id]
