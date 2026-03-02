@@ -33,5 +33,3 @@ def type_check(func):
 @type_check
 def greet(name: str, age: int) -> str:
     return f"{name} is {age} years old"
-
-print(greet(21, 'Raghav'))
