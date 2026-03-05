@@ -13,6 +13,7 @@ int lower_bound(int arr[], int n, int target){
             low=mid+1;
         }
     }
+    return ans;
 }
 int upper_bound(int arr[], int n, int target) {
     int low = 0;
@@ -46,9 +47,13 @@ int main(){
     printf("Enter your target:");
     scanf("%d", &target);
     int first = lower_bound(arr,n,target);
-    int last = upper_bound(arr,n,target) -1;
+    if (first == n || arr[first] != target) {
+        printf("-1 -1");
+    }
+    else {
+        int last = upper_bound(arr, n, target) - 1;
+        printf("%d %d", first, last);
+    }
 
-    printf("The first and Last occurence of target is: %d, %d", first, last);
-    
     return 0;
 }
