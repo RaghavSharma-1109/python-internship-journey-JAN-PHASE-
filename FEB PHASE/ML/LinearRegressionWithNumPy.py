@@ -5,7 +5,7 @@ X = np.array([
     [3,4],
     [4,3]
 ])
-y = np.array([7,11,15,19,23])
+y = np.array([8,7,18,17])
 
 w = np.zeros(2)
 b = 0
@@ -16,7 +16,7 @@ for epoch in range(epochs):
     y_pred = np.dot(X,w) +b
     error = y - y_pred
     loss = np.mean(error**2)
-    dw = (-2/n)*np.dot(X.T*error)
+    dw = (-2/n)*np.dot(X.T,error)
     db = (-2/n)*np.sum(error)
 
     w = w-lr*dw
