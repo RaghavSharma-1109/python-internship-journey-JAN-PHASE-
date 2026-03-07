@@ -15,10 +15,6 @@ age_house = np.random.randint(0,30,200)
 
 X = np.column_stack((size,bedrooms,age_house))
 
-mean = np.mean(X,axis=0)
-variance = np.var(X,axis=0)
-std = np.std(X,axis=0)
-
 X_norm = normalize_features(X)
 print(np.mean(X_norm, axis=0))
 print(np.std(X_norm, axis=0))
