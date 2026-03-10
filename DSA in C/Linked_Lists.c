@@ -3,7 +3,7 @@
 struct Node{
     int data;
     struct Node* next;
-}
+};
 struct Node* top = NULL;
 void push(){
     struct Node* newNode;
@@ -12,20 +12,20 @@ void push(){
     printf("Enter the value:\n");
     scanf("%d", &value);
 
-    newNode = (struct Node*) malloc(sizeof(struct Node))
+    newNode = (struct Node*) malloc(sizeof(struct Node));
     newNode->data = value;
-    new->next =top;
+    newNode->next =top;
 
     top = newNode;
 
-    printf("%d Pushed\n", value)
+    printf("%d Pushed\n", value);
 }
 void pop(){
     if(top == NULL){
         printf("Stack Underflow\n");
-        return
+        return;
     }
-    temp = top;
+    int temp = top;
     printf("%d popped\n", top->data);
     top = top->next;
 
@@ -34,7 +34,7 @@ void pop(){
 void peek(){
     if(top==NULL){
         printf("ُEmpty Stack\n");
-        return
+        return;
     }
     printf("%d -> top element.", top-> data);
 }
@@ -42,7 +42,7 @@ void display(){
     struct Node* temp =top;
     if(top==NULL){
         printf("Empty Stack\n");
-        return 
+        return;
     }
     printf("Stack elements:\n");
 
