@@ -1,0 +1,9 @@
+--- Student Report ---
+
+Raghav    - Avg: 84.33 - Passed
+Amit      - Avg: 35.0 - Failed
+Neha      - Avg: 88.0 - Passed
+Priya     - Avg: 65.0 - Passed
+Karan     - Avg: 37.0 - Failed
+
+Topper: Neha (88.0)
